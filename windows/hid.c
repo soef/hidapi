@@ -234,6 +234,18 @@ static HANDLE open_device(const char *path, BOOL enumerate)
 		FILE_FLAG_OVERLAPPED,/*FILE_ATTRIBUTE_NORMAL,*/
 		0);
 
+    if ((handle == INVALID_HANDLE_VALUE) && (GetLastError() == 32))
+    {
+		handle = CreateFileA(path,
+			GENERIC_WRITE | GENERIC_READ,
+			FILE_SHARE_READ|FILE_SHARE_WRITE,
+			NULL,
+			OPEN_EXISTING,
+			FILE_FLAG_OVERLAPPED,/*FILE_ATTRIBUTE_NORMAL,*/
+			0);
+    }
+
+
 	return handle;
 }
 
